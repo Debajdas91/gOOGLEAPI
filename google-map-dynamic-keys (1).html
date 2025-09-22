@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Map with Query Parameters</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Google Map</h1>
+    <div id="map"></div>
+
+    <script>
+        // API Key configuration - replace with your actual keys
+        const API_KEYS = {
+            development: 'YOUR_DEV_API_KEY',
+            production: 'YOUR_PROD_API_KEY'
+        };
+
+        // Detect environment based on hostname
+        function getEnvironment() {
+            const hostname = window.location.hostname;
+            if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('dev')) {
+                return 'development';
+            }
+            return 'production';
+        }
+
+        // Get the appropriate API key
+        const environment = getEnvironment();
+        const API_KEY = API_KEYS[environment];
+
+        function initMap() {
+            // Get the query parameters from the URL
+            var params = new URLSearchParams(window.location.search);
+            var latitude = parseFloat(params.get('lat'));
+            var longitude = parseFloat(params.get('lng'));
+
+            // Check if latitude and longitude are provided
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                // Map options
+                var options = {
+                    center: { lat: latitude, lng: longitude },
+                    zoom: 12
+                };
+
+                // Create a map
+                var map = new google.maps.Map(document.getElementById('map'), options);
+
+                // Add a marker
+                var marker = new google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map: map,
+                    title: 'Location'
+                });
+            } else {
+                // Display an error message if latitude and longitude are missing
+                document.getElementById('map').innerHTML = 'Please provide latitude and longitude as query parameters.';
+            }
+        }
+
+        // Dynamically load Google Maps with the appropriate API key
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>
