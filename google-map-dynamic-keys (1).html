@@ -16,16 +16,13 @@
     <script>
         // API Key configuration - replace with your actual keys
         const API_KEYS = {
-            development: 'YOUR_DEV_API_KEY',
-            production: 'YOUR_PROD_API_KEY'
+            development: 'AIzaSyCZK-vxvjvdTU7JlIQB4X7eKEs0qrKWYoI',
+            production: 'AIzaSyBo8VcjMdhKekJjbHwmPLzIS3E8odseYrc'
         };
 
         // Detect environment based on hostname
         function getEnvironment() {
-            const hostname = window.location.hostname;
-            if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('dev')) {
-                return 'development';
-            }
+    
             return 'production';
         }
 
